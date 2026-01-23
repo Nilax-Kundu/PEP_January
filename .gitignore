@@ -1,0 +1,9 @@
+# Ignore build outputs
+**/build/
+
+# Ignore executables
+*.exe
+
+# OS junk
+.DS_Store
+Thumbs.db

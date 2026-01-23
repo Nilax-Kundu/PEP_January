@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build and run C++",
+      "type": "shell",
+      "command": "g++ \"${file}\" -std=c++17 -O2 -o \"${fileDirname}\\build\\${fileBasenameNoExtension}.exe\" && \"${fileDirname}\\build\\${fileBasenameNoExtension}.exe\"",
+      "options": {
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
