@@ -4,10 +4,11 @@ class Node{
     public:
     int data;
     Node* next;
-
+    Node* prev;
     Node(int val){
         data = val;
         next = NULL;
+        prev = NULL;
     }
 };
 void insertAtEnd(Node* &head, int val){
@@ -21,8 +22,10 @@ void insertAtEnd(Node* &head, int val){
         temp = temp->next;
     }
     temp->next = node;
+    node->prev = temp;
 
 }
+
 void insertAtStart(Node* &head, int val){
     Node* node = new Node(val);
     if (head == NULL){
@@ -30,17 +33,20 @@ void insertAtStart(Node* &head, int val){
         return;
     }
     node->next = head;
+    head->prev = node;
     head = node;
 }
+
 void insertAtNth(Node* &head, int val, int n){
     Node* node = new Node(val);
     if (n == 0){
         node->next = head;
+        if (head!=NULL) head->prev = node;
         head = node;
         return;
     }
     Node* temp = head;
-    for(int i = 1;i<n-1; i++){
+    for(int i = 0;i<n-1; i++){
         if (temp == NULL){
             delete node;
             return;
@@ -48,9 +54,12 @@ void insertAtNth(Node* &head, int val, int n){
         temp = temp->next;
     }
     node->next = temp->next;
+    if (temp->next != NULL) temp->next->prev = node;
     temp->next = node;
+    node->prev = temp;
 
 }
+
 void printLL(Node* head){
     if (head == NULL){
         cout<<"Empty Linked List.";
@@ -62,14 +71,7 @@ void printLL(Node* head){
         temp = temp->next;
     }
 }
-
 int main() {
-    Node* head = NULL;
-    int val;
-    for (int i=0;i<5;i++){
-        cin>>val;
-        insertAtEnd(head, val);
-    }
-    printLL(head);
+    
     return 0;
 }
