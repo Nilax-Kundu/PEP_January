@@ -14,34 +14,44 @@ void insertAtEnd(Node* &head, int val){
     Node* node = new Node(val);
     if(head == NULL){
         head = node;
+        head->next = head;
         return;
     }
     Node* temp = head;
-    while(temp->next != NULL){
+    while(temp->next != head){
         temp = temp->next;
     }
     temp->next = node;
+    node->next = head;
 
 }
 void insertAtStart(Node* &head, int val){
     Node* node = new Node(val);
-    if (head == NULL){
+    if(head == NULL){
         head = node;
+        head->next = head;
         return;
     }
+    Node* temp = head;
+    while(temp->next != head){
+        temp = temp->next;
+    }
+    temp->next = node;
     node->next = head;
     head = node;
+
 }
 void insertAtNth(Node* &head, int val, int n){
     Node* node = new Node(val);
     if (n == 0){
         node->next = head;
         head = node;
+        node->next = head;
         return;
     }
     Node* temp = head;
     for(int i = 1;i<n-1; i++){
-        if (temp == NULL){
+        if (temp == head){
             delete node;
             return;
         }
@@ -52,7 +62,7 @@ void insertAtNth(Node* &head, int val, int n){
 
 }
 
-void deleteLL(Node* head, int n){
+void deleteLL(Node* &head, int n){
 
     if (head == NULL){
         cout<<"Empty Linked List.";
@@ -60,22 +70,27 @@ void deleteLL(Node* head, int n){
 
     if (n == 1){
         Node* temp = head;
+        while (temp->next!= head){
+            temp = temp -> next;
+        }
+        temp->next = head->next;
+        Node* todel = head;
         head = head->next;
-        delete temp;
+        delete todel;
         return;
     }
 
     Node* temp = head;
 
-    for (int i = 1; temp!= NULL && i<n-1; i++){  
+    for (int i = 1; temp!= head && i<n-1; i++){  
         temp = temp->next;      
     }
 
-    if (temp == NULL || temp->next == NULL){
+    if (temp == head || temp->next == head){
         cout<<"Index out of Linked list bound.";
         return;
     }
-
+    
     Node* toDel = temp->next;
     temp->next = temp->next->next;
     delete toDel;
@@ -87,43 +102,20 @@ void printLL(Node* head){
         return;
     }
     Node* temp = head;
-    while (temp != NULL){
-        cout<<temp->data<<" ";
+    while (temp->next != head){
+        cout<<temp->data<<"->";
         temp = temp->next;
     }
+    cout<<temp->data;
 }
 
-void countevenLL(Node* head){
-    Node* temp = head;
-    int counter = 0;
-    while (temp!=NULL){
-        if ((temp->data)%2==0){
-            counter++;
-        }
-        temp = temp->next;
-    }
-    cout<<"There are "<<counter<<" even numbered nodes in this Linked List"<<endl;
-}
-void findkey(Node* head, int key){
-    Node*temp = head;
-    if (temp == NULL){
-        cout<<"Key not found.";
-        return;
-    }
-    else if (temp->data == key){
-        cout<<"Key found";
-        return;
-    }
-    findkey(head->next, key);
-}
 int main() {
     Node* head = NULL;
-    insertAtStart(head, 33);
-    insertAtEnd(head, 42);
-    insertAtStart(head, 18);
-    insertAtEnd(head, 11);
-    insertAtEnd(head, 17);
-    countevenLL(head);
-    findkey(head, 18);
+    int val;
+    for (int i=0;i<5;i++){
+        cin>>val;
+        insertAtEnd(head, val);
+    }
+    printLL(head);
     return 0;
-}//33, 42, 18, 11, 17 
+}
